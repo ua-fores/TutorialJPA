@@ -27,7 +27,7 @@ public class CountryController {
     }
 
     // ----- 詳細画面 -----
-    @GetMapping(value = { "/detail", "/detail/{code}/" })
+    @GetMapping(value = { "/detail", "/detail/{code}" })
     public String getCountry(@PathVariable(name = "code", required = false) String code, Model model) {
         // codeが指定されていたら検索結果、なければ空のクラスを設定
         Country country = code != null ? service.getCountry(code) : new Country();
@@ -49,8 +49,8 @@ public class CountryController {
     }
 
     // ---- 削除画面-----
-    @GetMapping("/delete")
-    public String deleteCountryForm(Model model) {
+    @GetMapping(value = { "/delete", "/delete/{code}" })
+    public String deleteCountryForm(@PathVariable(name = "code", required = false) String code, Model model) {
         // country/delete.htmlに画面遷移
         return "country/delete";
     }
@@ -61,7 +61,7 @@ public class CountryController {
         // 削除
         service.deleteCountry(code);
 
-        //一覧画面にリダイレクト
+        // 一覧画面にリダイレクト
         return "redirect:/country/list";
 
     }
